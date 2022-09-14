@@ -7,6 +7,7 @@ import com.example.littleProject.controller.dto.response.ResultResponse;
 import com.example.littleProject.controller.dto.response.StatusResponse;
 import com.example.littleProject.controller.dto.response.SumResult;
 import com.example.littleProject.model.HCMIORepository;
+import com.example.littleProject.model.HolidayRepository;
 import com.example.littleProject.model.MSTMBRepository;
 import com.example.littleProject.model.TCNUDRepository;
 import com.example.littleProject.model.entity.BSType;
@@ -19,8 +20,12 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +38,9 @@ public class TransactionService {
 
     @Autowired
     private MSTMBRepository mstmbRepository;
+
+    @Autowired
+    private HolidayRepository holidayRepository;
 
     @Autowired
     private CalcTool calcTool;
@@ -110,6 +118,10 @@ public class TransactionService {
 
         BigDecimal max = request.getMax();
         BigDecimal min = request.getMin();
+        System.out.println("min"+min);
+        System.out.println("max"+max);
+        System.out.println(min.compareTo(max));
+
         if (max != null && min != null) {
             if (max.compareTo(min) < 0) {
                 return statusResponseBuilder("002", "min should not greater than max");
@@ -128,13 +140,14 @@ public class TransactionService {
 
 
     @Transactional(rollbackOn = Exception.class)
-    public StatusResponse buyStock(TransactionRequest request) { //throws Exception
+    public StatusResponse buyStock(TransactionRequest request) {
         // HCMIO 和 TCNUD 都新增一筆
 
-        //1.書號相同無法新增/////////////////////////////////
-        //2. tradeDate 不同, 其他同 可以新增嗎
-        //if(xxx&&xxx&&xxx&&xxx){不能加}
-
+        List<HCMIO> hcmioList = this.hcmioRepository.findByTradeDateAndBranchNoAndCustSeqAndDocSeq(request.getTradeDate(),
+                request.getBranchNo(), request.getCustSeq(), request.getDocSeq());
+        if (hcmioList.size() > 0) {
+            return statusResponseBuilder("002", "already exist in HCMIO, cannot create.");
+        }
         //新增明細 HCMIO
         HCMIO hcmio = addHCMIO(request);
 
@@ -144,8 +157,9 @@ public class TransactionService {
         //statusResponse
         Result result = new Result();
 
-        //找到相同書號，加入資料到 statusResponse 的 ResultList //findby 4 conditional
-        TCNUD tcnud = this.tcnudRepository.findByDocSeq(request.getDocSeq());
+        //找到剛加的那筆，加入資料到 statusResponse 的 ResultList //findby 4 conditional
+        TCNUD tcnud = this.tcnudRepository.findByTradeDateAndBranchNoAndCustSeqAndDocSeq(request.getTradeDate(),
+                request.getBranchNo(), request.getCustSeq(), request.getDocSeq());
         result.setTradeDate(tcnud.getTradeDate());
         result.setDocSeq(tcnud.getDocSeq());
         result.setStock(tcnud.getStock());
@@ -157,8 +171,12 @@ public class TransactionService {
         result.setRemainQty(tcnud.getRemainQty());
         result.setFee(tcnud.getFee());
         BigDecimal cost = tcnud.getCost();
-        result.setCost(cost);
+        result.setCost(cost.setScale(0, RoundingMode.HALF_UP));
+
         MSTMB mstmb = this.mstmbRepository.findByStock(request.getStock());
+        if (null == mstmb) {
+            return statusResponseBuilder("002", "this stock is not exist in MSTMB.");
+        }
         result.setStockName(mstmb.getStockName());
 
         //要防沒資料
@@ -171,20 +189,16 @@ public class TransactionService {
         result.setMarketValue(marketValue.setScale(0, RoundingMode.HALF_UP));
         result.setUnrealProfit(unrealProfit.setScale(0, RoundingMode.HALF_UP));
 
-        //        profitMargin
+        //profitMargin
         String profitMargin = this.calcTool.calcProfitMargin(unrealProfit, cost);
         result.setProfitMargin(profitMargin);
 
-        //注意四捨五入
         List<Result> resultList = new ArrayList<>();
         resultList.add(result);
-        System.out.println(result.getStock());
-        System.out.println(resultList.get(0).getFee());
         return statusResponseBuilder("000", "", resultList);
     }
 
     //新增HCMIO
-//    @Transactional(rollbackOn = Exception.class)
     private HCMIO addHCMIO(TransactionRequest request) {
         HCMIO hcmio = new HCMIO();
         hcmio.setTradeDate(request.getTradeDate()); //1
@@ -216,8 +230,7 @@ public class TransactionService {
     }
 
     //新增 TCNUD
-//     @Transactional(rollbackOn = Exception.class)
-    private void addTCNUD(HCMIO hcmio) { //throws Exception
+    private void addTCNUD(HCMIO hcmio) {
         TCNUD tcnud = new TCNUD();
         tcnud.setTradeDate(hcmio.getTradeDate()); //1
         tcnud.setBranchNo(hcmio.getBranchNo()); //2
@@ -235,7 +248,46 @@ public class TransactionService {
         tcnud.setModTime(hcmio.getModTime()); //12
         tcnud.setModUser(hcmio.getModUser()); //13
         this.tcnudRepository.save(tcnud);
-//        throw new Exception("for test");
+    }
+
+    public String searchSettlement(String branchNo, String custSeq) {
+
+        //convert String to LocalDate
+//        String dateTest = "2022-09-12"; // 2022-09-12 -> 2022-09-07 放假三天
+//        LocalDate localDate = LocalDate.parse(dateTest);
+        String message ="";
+        LocalDate today = LocalDate.now();
+        int todayOfWeek = today.getDayOfWeek().getValue(); //Monday -> 1
+
+        if(6 == todayOfWeek || 7 == todayOfWeek){
+            return message = "假日無交割金";
+        }
+
+        //如果工作日 +1
+        int countDay = 0;
+        String date= "";
+        LocalDate tempDate = today;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        while(countDay < 2){
+            tempDate = tempDate.minusDays(1);
+            int dayOfWeek = tempDate.getDayOfWeek().getValue();
+            date = tempDate.format(formatter);
+            System.out.println(date);
+
+            String Holiday = this.holidayRepository.findByHoliday(date);
+            if(null == Holiday && 6 != dayOfWeek && 7 != dayOfWeek){
+                countDay++;
+            }
+        }
+
+        List<TCNUD> tcnudList = this.tcnudRepository.findByTradeDateAndBranchNoAndCustSeq(date, branchNo, custSeq);
+        if(tcnudList.size() == 0){ //顧客沒買
+            return message = "無股票需付款";
+        }
+
+        BigDecimal totalPay = tcnudList.stream().map(e -> e.getCost()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        message = "共需付款："+ totalPay.setScale(0, RoundingMode.HALF_UP).toString();
+        return message;
     }
 
     public StatusResponse statusResponseBuilder(String responseCode, String message, List<? extends ResultResponse>... resultList) {
@@ -270,9 +322,9 @@ public class TransactionService {
 
         Result result;
         for (TCNUD tcnud : TCNUDList) {
-            MSTMB mstmb1 = this.mstmbRepository.findByStock(tcnud.getStock());
-            BigDecimal nowPrice = mstmb1.getCurPrice(); //取得現價
-            String stockName = mstmb1.getStockName(); //取得 stockName
+            MSTMB mstmb = this.mstmbRepository.findByStock(tcnud.getStock());
+            BigDecimal nowPrice = mstmb.getCurPrice(); //取得現價
+            String stockName = mstmb.getStockName(); //取得 stockName
             result = new Result();
             result.setTradeDate(tcnud.getTradeDate());
             result.setDocSeq(tcnud.getDocSeq());
@@ -398,8 +450,8 @@ public class TransactionService {
         if (max != null && min != null) {
             if (max.compareTo(min) == 0) { //max == min
                 return profitMarginBD.compareTo(max) == 0;
-            } else {
-                return (profitMarginBD.compareTo(max) == -1) && (profitMarginBD.compareTo(min) == 1);
+            } else { //min~max
+                return (profitMarginBD.compareTo(max) < 0) && (profitMarginBD.compareTo(min) > 0);
             }
         } else if (min == null && max != null) {  //only max
             return profitMarginBD.compareTo(max) == -1;

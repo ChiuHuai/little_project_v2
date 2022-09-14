@@ -18,13 +18,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class TransactionRequest {
     @NotBlank(message = "tradeDate should not be blank")
-    @Length(max = 8, message = "tradeDate should be 8 characters")
+    @Length(min = 8, max = 8, message = "tradeDate should be 8 characters")
     private String tradeDate;
     @NotBlank(message = "branchNo should not be blank")
-    @Length(max = 4, message = "branchNo should less than 4 characters")
+    @Length(min = 4, max = 4, message = "branchNo should be 4 characters")
     private String branchNo;
     @NotBlank(message = "custSeq should not be blank")
-    @Length(min = 1, max = 4, message = "custSeq should less than 7 characters")
+    @Length(min = 1, max = 7, message = "custSeq should less than 7 characters")
     private String custSeq;
     @NotBlank(message = "docSeq should not be blank")
     @Length(max = 5, message = "docSeq should less than 5 characters")

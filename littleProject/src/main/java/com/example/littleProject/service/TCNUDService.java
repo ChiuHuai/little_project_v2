@@ -16,20 +16,4 @@ public class TCNUDService {
         List<TCNUD> tcnudList = this.tcnudRepository.findAll();
         return tcnudList;
     }
-
-    public List<TCNUD> findTCNUDByStock(String stock) { //第一題 detail
-        List<TCNUD> tcnudList = this.tcnudRepository.findByStock(stock);
-        return tcnudList;
-    }
-
-    public TCNUD findTCNUDByDocSeq(String docSeq) {
-        TCNUD tcnud = this.tcnudRepository.findByDocSeq(docSeq);
-        return tcnud;
-    }
-
-    public TCNUD findLatestStock(String stock, String branchNo, String custSeq) {
-        TCNUD tcnud =
-                this.tcnudRepository.findLatestStock(stock, branchNo, custSeq);
-        return tcnud;
-    }
 }

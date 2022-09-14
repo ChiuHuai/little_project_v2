@@ -68,7 +68,7 @@ public class CalcTool {
 
     //取得profitability
     public String calcProfitMargin(BigDecimal unrealProfit, BigDecimal totalCost){
-        BigDecimal ProfitMargin = unrealProfit.divide(totalCost,2, RoundingMode.HALF_UP);
+        BigDecimal ProfitMargin = unrealProfit.divide(totalCost,4, RoundingMode.HALF_UP); //4
         String profitMarginString = new DecimalFormat("#.00%").format(ProfitMargin);
         return profitMarginString;
     }

@@ -10,16 +10,18 @@ import java.util.List;
 
 @Repository
 public interface TCNUDRepository extends JpaRepository<TCNUD, TCNUDId> {
-    TCNUD findByDocSeq(String docSeq); //第三題 add
-
-    List<TCNUD> findByStock(String stock);
 
     List<TCNUD> findByCustSeqAndBranchNo(String custSeq, String branchNo); //第一題 detail
 
     List<TCNUD> findByStockAndCustSeqAndBranchNo(String stock, String custSeq, String branchNo); //第一題 detail
 
+    List<TCNUD> findByTradeDateAndBranchNoAndCustSeq(String tradeDate, String branchNo, String custSeq);
+
+    TCNUD findByTradeDateAndBranchNoAndCustSeqAndDocSeq(String tradeDate, String branchNo, String custSeq, String docSeq);
+
+
     @Query(value = "SELECT * FROM tcnud WHERE stock=?1 AND branchNo=?2 AND custSeq=?3 ORDER BY modDate DESC , modTime Desc LIMIT 1",
             nativeQuery = true)
-    TCNUD findLatestStock(String stock, String branchNo,String custSeq); //用於計算 未實現損益(取得最新一筆剩餘股數)
+    TCNUD findLatestStock(String stock, String branchNo, String custSeq); //用於計算 未實現損益(取得最新一筆剩餘股數)
 
 }

@@ -62,6 +62,12 @@ public class TransactionController {
         }
     }
 
+    @GetMapping("/searchSettlement")
+    public String searchSettlement(@RequestParam String branchNo, @RequestParam String custSeq){
+        String response = this.transactionService.searchSettlement(branchNo, custSeq);
+        return response;
+    }
+
 //    @ExceptionHandler(value = Exception.class)
 //    @ResponseStatus(HttpStatus.CONFLICT)
 //    public StatusResponse handleException(Exception ex) {
