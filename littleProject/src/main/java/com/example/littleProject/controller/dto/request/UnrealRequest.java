@@ -7,17 +7,21 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UnrealRequest {
-    @NotBlank(message = "branchNo may not be null")
-    @Length(min = 4, max = 4, message = "should be 4 characters")
+    @NotBlank(message = "branchNo should not be blank")
+    @Length(min = 4, max = 4, message = "branchNo should be 4 characters")
     private String branchNo;
-    @NotBlank(message = "custSeq may not be null")
-    @Length(min = 2, max = 2, message = "should be 2 characters")
+    @NotBlank(message = "custSeq should not be blank")
+    @Length(min = 2, max = 2, message = "custSeq should be 2 characters")
     private String custSeq;
     private String stock;
+
+    BigDecimal min;
+    BigDecimal max;
 }

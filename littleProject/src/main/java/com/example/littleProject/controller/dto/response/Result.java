@@ -1,17 +1,19 @@
 package com.example.littleProject.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result {
+public class Result extends ResultResponse{
     private String tradeDate; //1
     private String docSeq; //2
     private String stock; //3
@@ -24,4 +26,15 @@ public class Result {
     private BigDecimal cost; //10
     private BigDecimal marketValue; //11
     private BigDecimal unrealProfit; //12
+    private String profitMargin; //獲利率 加分題
+
+//    public String getProfitMargin(){
+//        return new DecimalFormat("#.00%").format(profitMargin);
+//    }
+//
+//    //取得真的 BigDecimal profitMargin
+//    @JsonIgnore
+//    public BigDecimal getProfitMarginBD(){
+//        return this.profitMargin;
+//    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SumResult {
+public class SumResult extends ResultResponse{
     private String stock; //1
     private String stockName; //2
     private BigDecimal nowprice; //3
@@ -21,5 +21,8 @@ public class SumResult {
     private BigDecimal sumCost; //6
     private BigDecimal sumMarketValue; //7
     private BigDecimal sumUnrealProfit; //8
-    private List<Result> detailList; //9
+    private String sumProfitMargin; //9 加分
+    private List<Result> detailList; //10
+
+
 }

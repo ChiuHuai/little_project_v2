@@ -38,11 +38,11 @@ public class TCNUDController {
     }
 
     //測試用
-    @GetMapping("/latestTCNUD")
-    public TCNUD findLatestStock(@RequestParam String stock){
-        TCNUD tcnud = this.tcnudService.findLatestStock(stock);
-        return tcnud;
-    }
+//    @GetMapping("/latestTCNUD")
+//    public TCNUD findLatestStock(@RequestParam String stock){
+//        TCNUD tcnud = this.tcnudService.findLatestStock(stock);
+//        return tcnud;
+//    }
 
 
 }

@@ -27,9 +27,9 @@ public class TCNUDService {
         return tcnud;
     }
 
-    public TCNUD findLatestStock(String stock) {
+    public TCNUD findLatestStock(String stock, String branchNo, String custSeq) {
         TCNUD tcnud =
-                this.tcnudRepository.findLatestStock(stock);
+                this.tcnudRepository.findLatestStock(stock, branchNo, custSeq);
         return tcnud;
     }
 }
