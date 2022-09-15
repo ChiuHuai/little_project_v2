@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"tradeDate\":\"20220909\",\n    \"branchNo\":\"F62S\",\n    \"custSeq\":\"00\",\n    \"docSeq\":\"TT007\",\n    \"stock\":\"2357\",\n    \"price\":200.35,\n    \"qty\":2000\n}\n",
+					"raw": "{\n    \"tradeDate\":\"20220909\",\n    \"branchNo\":\"F62S\",\n    \"custSeq\":\"00\",\n    \"docSeq\":\"TT008\",\n    \"stock\":\"2357\",\n    \"price\":200.35,\n    \"qty\":2000\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -44,7 +44,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n      \"branchNo\":\"F62S\",\n      \"custSeq\":\"00\",\n      \"stock\": \"7777\",\n      \"min\": null,\n      \"max\": null\n}",
+					"raw": "{\n      \"branchNo\":\"F62S\",\n      \"custSeq\":\"00\",\n      \"stock\": \"\",\n      \"min\": null,\n      \"max\": null\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -75,7 +75,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n      \"branchNo\":\"F62S\",\n      \"custSeq\":\"00\",\n      \"stock\":\"\",\n      \"min\": null,\n      \"max\": null\n\n}",
+					"raw": "{\n      \"branchNo\":\"F62S\",\n      \"custSeq\":\"01\",\n      \"stock\":\"\",\n      \"min\": 0,\n      \"max\": 100\n\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -186,8 +186,17 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"branchNo\":\"F62S\",\n      \"custSeq\":\"00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/searchSettlement?branchNo=F62S&custSeq=00",
+					"raw": "http://localhost:8080/api/v1/searchSettlement",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -201,11 +210,13 @@
 					"query": [
 						{
 							"key": "branchNo",
-							"value": "F62S"
+							"value": "F62S",
+							"disabled": true
 						},
 						{
 							"key": "custSeq",
-							"value": "00"
+							"value": "00",
+							"disabled": true
 						}
 					]
 				}

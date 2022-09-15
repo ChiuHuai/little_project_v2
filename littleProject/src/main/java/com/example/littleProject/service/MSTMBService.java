@@ -36,7 +36,7 @@ public class MSTMBService {
             return new MSTMBResponse().builder().message("查無結果").mstmb(null).build();
         }
         mstmb.setCurPrice(mstmb.getCurPrice().setScale(2, RoundingMode.HALF_UP));
-        return new MSTMBResponse().builder().message("查詢成功").mstmb(mstmb).build();
+        return new MSTMBResponse().builder().message("成功").mstmb(mstmb).build();
     }
 
     @CachePut(cacheNames = "stock", key = "#request.stock")
@@ -58,6 +58,6 @@ public class MSTMBService {
         newMSTMB.setModTime(dateTimeNow[1]);
         System.out.println(newMSTMB.getModTime());
 
-        return new MSTMBResponse().builder().message("修改成功").mstmb(newMSTMB).build();
+        return new MSTMBResponse().builder().message("成功").mstmb(newMSTMB).build();
     }
 }

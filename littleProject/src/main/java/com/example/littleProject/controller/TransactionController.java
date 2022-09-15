@@ -1,5 +1,6 @@
 package com.example.littleProject.controller;
 
+import com.example.littleProject.controller.dto.request.SettlementRequest;
 import com.example.littleProject.controller.dto.request.TransactionRequest;
 import com.example.littleProject.controller.dto.request.UnrealRequest;
 import com.example.littleProject.controller.dto.response.StatusResponse;
@@ -59,11 +60,11 @@ public class TransactionController {
         return statusResponse;
     }
 
-    @GetMapping("/searchSettlement")
-    public String searchSettlement(@RequestParam String branchNo, @RequestParam String custSeq) {
+    @PostMapping("/searchSettlement")
+    public String searchSettlement(@RequestBody @Valid SettlementRequest request) {
         String response= "";
         try {
-            response = this.transactionService.searchSettlement(branchNo, custSeq);
+            response = this.transactionService.searchSettlement(request.getBranchNo(), request.getCustSeq());
         } catch (Exception e) {
             response = "伺服器忙碌中，請稍後嘗試";
         }
