@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "21e4676e-63e4-4836-a4f2-2e469a8d4f60",
+		"name": "LittleProjectPostman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22627354"
+	},
+	"item": [
+		{
+			"name": "新增餘額(Buy stock)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tradeDate\":\"20220909\",\n    \"branchNo\":\"F62S\",\n    \"custSeq\":\"00\",\n    \"docSeq\":\"TT007\",\n    \"stock\":\"2357\",\n    \"price\":200.35,\n    \"qty\":2000\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/unreal/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"unreal",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查詢未實現損益明細(可含獲利率區間)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"branchNo\":\"F62S\",\n      \"custSeq\":\"00\",\n      \"stock\": \"7777\",\n      \"min\": null,\n      \"max\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/unreal/detail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"unreal",
+						"detail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查詢未實現損益彙總(可含獲利率區間)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"branchNo\":\"F62S\",\n      \"custSeq\":\"00\",\n      \"stock\":\"\",\n      \"min\": null,\n      \"max\": null\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/unreal/sum",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"unreal",
+						"sum"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更新股票現價",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"curPrice\" : 112.23,\n    \"stock\": \"1203\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/mstmb/updateCurPrice/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"mstmb",
+						"updateCurPrice",
+						""
+					],
+					"query": [
+						{
+							"key": "curPrice",
+							"value": "110",
+							"disabled": true
+						},
+						{
+							"key": "stock",
+							"value": "1203",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查詢股票資訊",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stock\" : \"1203\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/mstmb/findByStock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"mstmb",
+						"findByStock"
+					],
+					"query": [
+						{
+							"key": "stock",
+							"value": "1203",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查詢交割金",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/searchSettlement?branchNo=F62S&custSeq=00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"searchSettlement"
+					],
+					"query": [
+						{
+							"key": "branchNo",
+							"value": "F62S"
+						},
+						{
+							"key": "custSeq",
+							"value": "00"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,155 @@
+-- MySQL dump 10.13  Distrib 5.7.28, for macos10.14 (x86_64)
+--
+-- Host: localhost    Database: test
+-- ------------------------------------------------------
+-- Server version	5.7.28
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `hcmio`
+--
+
+DROP TABLE IF EXISTS `hcmio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hcmio` (
+  `TradeDate` char(8) NOT NULL,
+  `BranchNo` char(4) NOT NULL,
+  `CustSeq` char(7) NOT NULL,
+  `DocSeq` char(5) NOT NULL,
+  `Stock` char(6) DEFAULT NULL,
+  `BsType` char(1) DEFAULT NULL,
+  `Price` decimal(10,4) DEFAULT NULL,
+  `Qty` decimal(9,0) DEFAULT NULL,
+  `Amt` decimal(16,2) DEFAULT NULL,
+  `Fee` decimal(8,0) DEFAULT NULL,
+  `Tax` decimal(8,0) DEFAULT NULL,
+  `StinTax` decimal(8,0) DEFAULT NULL,
+  `NetAmt` decimal(16,2) DEFAULT NULL,
+  `ModDate` char(8) DEFAULT NULL,
+  `ModTime` char(6) DEFAULT NULL,
+  `ModUser` char(10) DEFAULT NULL,
+  PRIMARY KEY (`TradeDate`,`BranchNo`,`CustSeq`,`DocSeq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hcmio`
+--
+
+LOCK TABLES `hcmio` WRITE;
+/*!40000 ALTER TABLE `hcmio` DISABLE KEYS */;
+INSERT INTO `hcmio` VALUES ('20220801','F62S','01','BB001','2357','B',282.0000,2000,564000.00,804,0,0,-564804.00,'20220823','114400','HuaiChiu'),('20220801','F62S','01','BB002','2376','B',80.6000,4000,322400.00,456,0,0,-322859.00,'20220823','104400','HuaiChiu'),('20220810','F62S','01','AB002','1218','S',30.0000,3000,90000.00,128,270,0,89602.00,'20220823','105100','HuaiChiu'),('20220819','F62S','01','CB001','1203','B',33.4500,1000,33450.00,48,0,0,-33498.00,'20220824','100100','HuaiChiu'),('20220819','F62S','01','CB002','1229','B',57.6000,3000,172800.00,246,0,0,-173046.00,'20220824','100200','HuaiChiu'),('20220819','F62S','01','CB003','1217','B',9.8300,7000,68810.00,98,0,0,-68908.00,'20220824','100300','HuaiChiu'),('20220819','F62S','01','CB004','2379','B',352.0000,10000,3520000.00,5016,0,0,-3525016.00,'20220824','100400','HuaiChiu'),('20220819','F62S','01','CB005','2609','B',90.7000,5000,453500.00,646,0,0,-454146.00,'20220824','100500','HuaiChiu'),('20220830','F62S','01','ZZ001','6214','B',80.5100,2000,161020.00,229,0,0,-161249.00,'20220913','132649','HuaiChiu'),('20220830','F62S','01','ZZ002','6214','B',80.5100,2000,161020.00,229,0,0,-161249.00,'20220914','094016','HuaiChiu'),('20220830','F62S','01','ZZ003','6214','B',80.5100,2000,161020.00,229,0,0,-161249.00,'20220914','094151','HuaiChiu'),('20220909','F62S','00','TT006','2357','B',200.3500,1000,200350.00,285,0,0,-200635.00,'20220915','023403','HuaiChiu'),('20220913','F62S','00','TT004','2357','B',200.3500,3000,601050.00,856,0,0,-601906.00,'20220915','022255','HuaiChiu'),('20220913','F62S','00','TT005','2357','B',200.3500,1000,200350.00,285,0,0,-200635.00,'20220915','023200','HuaiChiu'),('20220914','F62S','00','TT001','7777','B',100.3500,2000,200700.00,286,0,0,-200986.00,'20220914','230854','HuaiChiu'),('20220914','F62S','00','TT002','7777','B',70.3500,3000,211050.00,301,0,0,-211351.00,'20220914','231012','HuaiChiu'),('20220914','F62S','00','TT003','2357','B',200.3500,3000,601050.00,856,0,0,-601906.00,'20220914','231245','HuaiChiu');
+/*!40000 ALTER TABLE `hcmio` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `holiday`
+--
+
+DROP TABLE IF EXISTS `holiday`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `holiday` (
+  `Holiday` char(8) NOT NULL,
+  PRIMARY KEY (`Holiday`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `holiday`
+--
+
+LOCK TABLES `holiday` WRITE;
+/*!40000 ALTER TABLE `holiday` DISABLE KEYS */;
+INSERT INTO `holiday` VALUES ('20220131'),('20220201'),('20220202'),('20220203'),('20220204'),('20220228'),('20220404'),('20220405'),('20220603'),('20220909'),('20221010');
+/*!40000 ALTER TABLE `holiday` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mstmb`
+--
+
+DROP TABLE IF EXISTS `mstmb`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mstmb` (
+  `Stock` char(6) COLLATE utf8_bin NOT NULL,
+  `StockName` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `MarketType` char(1) COLLATE utf8_bin DEFAULT NULL,
+  `CurPrice` decimal(10,4) DEFAULT '0.0000',
+  `RefPrice` decimal(10,4) DEFAULT '0.0000',
+  `Currency` char(3) COLLATE utf8_bin DEFAULT 'NTD',
+  `ModDate` char(8) COLLATE utf8_bin DEFAULT NULL,
+  `ModTime` char(6) COLLATE utf8_bin DEFAULT NULL,
+  `ModUser` char(10) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`Stock`),
+  KEY `IDX_MSTMB` (`Stock`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mstmb`
+--
+
+LOCK TABLES `mstmb` WRITE;
+/*!40000 ALTER TABLE `mstmb` DISABLE KEYS */;
+INSERT INTO `mstmb` VALUES ('1203','味王','T',112.2300,0.0000,'TWD','20220915','155945','HuaiChiu'),('1217','愛之味','T',11.1100,0.0000,'TWD','20220912','141900','HuaiChiu'),('1229','聯華實業','T',55.3000,0.0000,'TWD','20220912','141900','HuaiChiu'),('2357','華碩','T',254.0000,0.0000,'TWD','20220912','141900','HuaiChiu'),('2376','技嘉科技','T',91.0000,0.0000,'TWD','20220912','141900','HuaiChiu'),('2379','瑞昱半導體','T',313.0000,0.0000,'TWD','20220912','141900','HuaiChiu'),('2609','陽明海運','T',69.6000,0.0000,'TWD','20220907','141900','HuaiChiu'),('6214','精誠資訊','T',71.7100,0.0000,'TWD','20220907','151500','HuaiChiu'),('7777','xxxxx','T',90.0000,0.0000,'TWD','20220914','100100','HuaiChiu');
+/*!40000 ALTER TABLE `mstmb` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tcnud`
+--
+
+DROP TABLE IF EXISTS `tcnud`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tcnud` (
+  `TradeDate` char(8) NOT NULL,
+  `BranchNo` char(4) NOT NULL,
+  `CustSeq` char(7) NOT NULL,
+  `DocSeq` char(5) NOT NULL,
+  `Stock` char(6) DEFAULT NULL,
+  `Price` decimal(10,4) DEFAULT NULL,
+  `Qty` decimal(9,0) DEFAULT NULL,
+  `RemainQty` decimal(9,0) DEFAULT NULL,
+  `Fee` decimal(8,0) DEFAULT NULL,
+  `Cost` decimal(16,2) DEFAULT NULL,
+  `ModDate` char(8) DEFAULT NULL,
+  `ModTime` char(6) DEFAULT NULL,
+  `ModUser` char(10) DEFAULT NULL,
+  PRIMARY KEY (`TradeDate`,`BranchNo`,`CustSeq`,`DocSeq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tcnud`
+--
+
+LOCK TABLES `tcnud` WRITE;
+/*!40000 ALTER TABLE `tcnud` DISABLE KEYS */;
+INSERT INTO `tcnud` VALUES ('20220801','F62S','01','BB001','2357',282.0000,2000,2000,804,564804.00,'20220823','114400','HuaiChiu'),('20220801','F62S','01','BB002','2376',80.6000,4000,4000,459,322859.00,'20220823','114400','HuaiChiu'),('20220819','F62S','01','CB001','1203',33.4500,1000,1000,48,33498.00,'20220824','100100','HuaiChiu'),('20220819','F62S','01','CB002','1229',57.6000,3000,3000,246,173046.00,'20220824','100200','HuaiChiu'),('20220819','F62S','01','CB003','1217',9.8300,7000,7000,98,68908.00,'20220824','100300','HuaiChiu'),('20220819','F62S','01','CB004','2379',352.0000,10000,10000,5016,3525016.00,'20220824','100400','HuaiChiu'),('20220819','F62S','01','CB005','2609',90.7000,5000,5000,646,454146.00,'20220824','100500','HuaiChiu'),('20220830','F62S','01','ZZ001','6214',80.5100,2000,2000,229,161249.00,'20220913','132649','HuaiChiu'),('20220830','F62S','01','ZZ002','6214',80.5100,2000,2000,229,161249.00,'20220914','094016','HuaiChiu'),('20220830','F62S','01','ZZ003','6214',80.5100,2000,2000,229,161249.00,'20220914','094151','HuaiChiu'),('20220909','F62S','00','TT006','2357',200.3500,1000,1000,285,200635.00,'20220915','023403','HuaiChiu'),('20220913','F62S','00','TT004','2357',200.3500,3000,3000,856,601906.00,'20220915','022255','HuaiChiu'),('20220913','F62S','00','TT005','2357',200.3500,1000,1000,285,200635.00,'20220915','023200','HuaiChiu'),('20220914','F62S','00','TT001','7777',100.3500,2000,2000,286,200986.00,'20220914','230854','HuaiChiu'),('20220914','F62S','00','TT002','7777',70.3500,3000,3000,301,211351.00,'20220914','231012','HuaiChiu'),('20220914','F62S','00','TT003','2357',200.3500,3000,3000,856,601906.00,'20220914','231245','HuaiChiu');
+/*!40000 ALTER TABLE `tcnud` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-09-15 16:27:03
