@@ -5,14 +5,12 @@ import com.example.littleProject.controller.dto.request.UnrealRequest;
 import com.example.littleProject.controller.dto.response.StatusResponse;
 import com.example.littleProject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 
 @RestController
-//@EnableTransactionManagement
 @RequestMapping("/api/v1")
 public class TransactionController {
     @Autowired
@@ -26,61 +24,50 @@ public class TransactionController {
     private MSTMBService mstmbService;
 
     @Autowired
-    private CalcTool calcTool;
+    private Tool tool;
 
     @PostMapping("/unreal/detail")
     public StatusResponse detailsOfUnrealizedProfit(@Valid @RequestBody UnrealRequest request) {
-        StatusResponse statusResponse = this.transactionService.detailsOfUnrealizedProfit(request);
+        StatusResponse statusResponse = new StatusResponse();
+        try {
+            statusResponse = this.transactionService.detailsOfUnrealizedProfit(request);
+        } catch (Exception e) {
+            statusResponse.builder().responseCode("005").message("伺服器忙碌中，請稍後嘗試").resultList(new ArrayList<>()).build();
+        }
         return statusResponse;
     }
 
     @PostMapping("/unreal/sum")
     public StatusResponse sumOfUnrealizedProfit(@Valid @RequestBody UnrealRequest request) {
+        StatusResponse statusResponse = new StatusResponse();
         try {
-            StatusResponse statusResponse = this.transactionService.sumOfUnrealizedProfit(request);
-
-            return statusResponse;
-
+            statusResponse = this.transactionService.sumOfUnrealizedProfit(request);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-//            return new StatusResponse().builder().responseCode("005").message("xxx").resultList(new ArrayList<>()).build();
+            statusResponse.builder().responseCode("005").message("伺服器忙碌中，請稍後嘗試").resultList(new ArrayList<>()).build();
         }
-
-
+        return statusResponse;
     }
 
     @PostMapping("/unreal/add")
     public StatusResponse addUnreal(@Valid @RequestBody TransactionRequest request) {
-        String responseMessage = null;
+        StatusResponse statusResponse = new StatusResponse();
         try {
-            StatusResponse statusResponse = this.transactionService.buyStock(request);
-            return statusResponse;
+            statusResponse = this.transactionService.buyStock(request);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            statusResponse.builder().responseCode("005").message("伺服器忙碌中，請稍後嘗試").resultList(new ArrayList<>()).build();
         }
+        return statusResponse;
     }
 
     @GetMapping("/searchSettlement")
-    public String searchSettlement(@RequestParam String branchNo, @RequestParam String custSeq){
-        String response = this.transactionService.searchSettlement(branchNo, custSeq);
+    public String searchSettlement(@RequestParam String branchNo, @RequestParam String custSeq) {
+        String response= "";
+        try {
+            response = this.transactionService.searchSettlement(branchNo, custSeq);
+        } catch (Exception e) {
+            response = "伺服器忙碌中，請稍後嘗試";
+        }
         return response;
     }
-
-//    @ExceptionHandler(value = Exception.class)
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public StatusResponse handleException(Exception ex) {
-//        StatusResponse response = new StatusResponse();
-//        response.setMessage("伺服器忙碌中，請稍後嘗試");
-//        response.setResultList(new ArrayList<>());
-//        response.setResponseCode("005");
-//        return response.builder()
-//                .resultList(new ArrayList<>())
-//                .responseCode("005")
-//                .message("伺服器忙碌中，請稍後嘗試")
-//                .build();
-//    }
-
 
 }

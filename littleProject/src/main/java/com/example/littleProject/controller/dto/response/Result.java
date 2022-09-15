@@ -26,15 +26,5 @@ public class Result extends ResultResponse{
     private BigDecimal cost; //10
     private BigDecimal marketValue; //11
     private BigDecimal unrealProfit; //12
-    private String profitMargin; //獲利率 加分題
-
-//    public String getProfitMargin(){
-//        return new DecimalFormat("#.00%").format(profitMargin);
-//    }
-//
-//    //取得真的 BigDecimal profitMargin
-//    @JsonIgnore
-//    public BigDecimal getProfitMarginBD(){
-//        return this.profitMargin;
-//    }
+    private String profitMargin; //13
 }

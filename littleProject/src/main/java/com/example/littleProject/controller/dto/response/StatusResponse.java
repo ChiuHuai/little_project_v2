@@ -13,12 +13,7 @@ import java.util.List;
 @Component
 @Builder
 public class StatusResponse {
-    private List<? extends ResultResponse> resultList; //Result
+    private List<? extends ResultResponse> resultList; //Result and SumResult
     private String responseCode;
     private String message;
-
-//    static void enumerateResultList(List<? extends ResultResponse> resultList) {
-//        for (ResultResponse r : resultList)
-//            r.
-//    }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public interface MSTMBRepository extends JpaRepository<MSTMB, String> {
@@ -15,7 +16,7 @@ public interface MSTMBRepository extends JpaRepository<MSTMB, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE mstmb SET curPrice = ?1 WHERE stock = ?2", nativeQuery = true)
-    int updateCurPriceInMSTMBByStock(BigDecimal curPrice, String stock);
-
+    @Query(value = "UPDATE mstmb SET curPrice=?1, modDate=?2, modTime=?3,modUser=?4 WHERE stock =?5", nativeQuery = true)
+    int updateCurPriceInMSTMBByStock(BigDecimal curPrice,String modDate,String modTime,String modUser, String stock);
+    // 修改現價
 }

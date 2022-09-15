@@ -21,7 +21,7 @@ public class SumResult extends ResultResponse{
     private BigDecimal sumCost; //6
     private BigDecimal sumMarketValue; //7
     private BigDecimal sumUnrealProfit; //8
-    private String sumProfitMargin; //9 加分
+    private String sumProfitMargin; //9
     private List<Result> detailList; //10
 
 

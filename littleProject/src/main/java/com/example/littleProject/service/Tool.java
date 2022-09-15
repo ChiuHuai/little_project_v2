@@ -1,5 +1,7 @@
 package com.example.littleProject.service;
 
+import com.example.littleProject.controller.dto.response.ResultResponse;
+import com.example.littleProject.controller.dto.response.StatusResponse;
 import com.example.littleProject.model.entity.BSType;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +10,11 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class CalcTool {
+public class Tool {
     //計算價金 amt
     public BigDecimal calcAmt(BigDecimal qty, BigDecimal price) {
         BigDecimal amt = qty.multiply(price).setScale(2, RoundingMode.HALF_UP);
@@ -43,7 +47,7 @@ public class CalcTool {
         }
     }
 
-    //取得當前日期與時間
+    //取得當前日期與時間 [0]yyyyMMdd, [1]HHmmss
     public String[] dateTimeNow() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
         String[] dateTime = LocalDateTime.now().format(formatter).split(" ");
@@ -62,16 +66,43 @@ public class CalcTool {
     public BigDecimal calcUnrealProfit(BigDecimal marketValue, BigDecimal totalCost) {
         //(現值股票單價*交易股數-手續費-交易稅) - (買時股票單價*交易股數+手續費)
         // marKetValue - totalCost
-        BigDecimal UnrealProfit = marketValue.subtract(totalCost); //.setScale(0, RoundingMode.HALF_UP)
+        BigDecimal UnrealProfit = marketValue.subtract(totalCost);
         return UnrealProfit;
     }
 
     //取得profitability
-    public String calcProfitMargin(BigDecimal unrealProfit, BigDecimal totalCost){
-        BigDecimal ProfitMargin = unrealProfit.divide(totalCost,4, RoundingMode.HALF_UP); //4
+    public String calcProfitMargin(BigDecimal unrealProfit, BigDecimal totalCost) {
+        BigDecimal ProfitMargin = unrealProfit.divide(totalCost, 4, RoundingMode.HALF_UP); //4
         String profitMarginString = new DecimalFormat("#.00%").format(ProfitMargin);
         return profitMarginString;
     }
 
+    //建立 StatusResponse
+    public StatusResponse statusResponseBuilder(String responseCode, String message, List<? extends ResultResponse>... resultList) {
+        StatusResponse.StatusResponseBuilder builder = new StatusResponse().builder();
+
+        if ("002".equals(responseCode)) {
+            return builder.message(message)
+                    .responseCode(responseCode)
+                    .resultList(new ArrayList<>())
+                    .build();
+        } else if ("001".equals(responseCode)) {
+            return builder.message("查無符合資料")
+                    .responseCode(responseCode)
+                    .resultList(new ArrayList<>())
+                    .build();
+        } else if ("005".equals(responseCode)) {
+            return builder.message("伺服器忙碌中，請稍後嘗試")
+                    .responseCode(responseCode)
+                    .resultList(new ArrayList<>())
+                    .build();
+        } else {
+            return builder.message("")
+                    .responseCode(responseCode)
+                    .resultList(resultList[0])
+                    .build();
+
+        }
+    }
 
 }
